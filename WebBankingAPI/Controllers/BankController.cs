@@ -252,17 +252,21 @@ namespace WebBankingAPI.Controllers
                 {
                     if (model.BankAccounts.Any(t => t.Id == IdBankAccount))
                     {
-                        //BankAccount BankAccountRemove = model.BankAccounts.Find(IdBankAccount);
                         BankAccount BankAccountRemove = model.BankAccounts.FirstOrDefault(q=> q.Id == IdBankAccount);
-
-                        model.BankAccounts.Remove(BankAccountRemove);
-                        
+                        //BankAccount BankAccountRemove = model.BankAccounts.FirstOrDefault(q=> q.Id == IdBankAccount);
                         List<AccountMovement> AccountMovements = model.AccountMovements.Where(q => q.FkBankAccount == IdBankAccount).ToList();
                         
-                        for(int i=0; i == AccountMovements.Count;i++)
-                        model.AccountMovements.Remove(AccountMovements[i]);
+                        
+                        model.AccountMovements.RemoveRange(AccountMovements);
+
+
+
+                        model.BankAccounts.Remove(BankAccountRemove);
 
                         model.SaveChanges();
+                        
+                       
+
                         return Ok("CANCELLAZIONE AVVENUTA CON SUCCESSO");
                     }
                     else
